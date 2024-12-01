@@ -1,10 +1,20 @@
 ---
-import Layout from '@/layouts/Layout.astro';
+import Card from '@/components/Card.astro'
+import Layout from '@/layouts/Layout.astro'
+import { getDoubanMusic, type MusicItem } from '@/api/get-douban-music'
+
+const musicList = await getDoubanMusic()
 ---
 
 <Layout title="Welcome to Astro.">
-	<main>
-		Hello World
+	<main class="py-8 pb-24">
+		<div
+			class="container mx-auto flex max-w-screen-lg flex-wrap items-center px-6 pb-12 pt-4 lg:px-0"
+		>
+			<h2 class="mb-12 text-3xl font-bold tracking-tighter">音乐列表</h2>
+			<div class="grid w-full grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+				{musicList.map((musicItem: MusicItem) => <Card {...musicItem} />)}
+			</div>
+		</div>
 	</main>
 </Layout>
-
