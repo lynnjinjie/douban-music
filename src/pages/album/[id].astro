@@ -26,7 +26,7 @@ const {
 } = Astro.props
 ---
 
-<Layout title={songName}>
+<Layout title={`${songName} - ${songArtist} - Douban Music`}>
 	<section class="pb-24">
 		<div
 			class="container mx-auto flex max-w-screen-lg flex-col items-start px-6 pb-12 pt-8 md:flex-row md:items-start lg:px-0"
@@ -34,13 +34,13 @@ const {
 			<img
 				src={songImgHref}
 				alt={songName}
-				width={400}
-				height={400}
-				class="rounded-md shadow-sm"
+				width={384}
+				height={384}
+				class="size-96 rounded-md shadow-sm"
 				style={`view-transition-name: album-${id}`}
 			/>
-			<div class="ml-4 mt-10 flex flex-col justify-start gap-4">
-				<div class="text-5xl font-bold">{songName}</div>
+			<div class="ml-4 flex flex-col justify-start gap-4">
+				<div class="text-4xl font-bold">{songName}</div>
 				<div class="text-3xl text-gray-700">{songArtist}</div>
 				<div class="text-lg text-gray-700">{songYear}</div>
 				<div class="text-lg text-gray-700">{songAlbumType}</div>

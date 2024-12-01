@@ -37,10 +37,7 @@ export default function TrackList({ index, songName, songArtist, songImgHref, mp
 	}
 
 	return (
-		<div
-			className={`flex cursor-pointer items-center border-b py-2 ${disabledClass}`}
-			onClick={handlePlay}
-		>
+		<div className={`flex items-center border-b py-2 ${disabledClass}`} onClick={handlePlay}>
 			<span className={`mr-2 text-lg ${isActiveColor}`}>{index}.</span>
 			{isCurrentSongPlaying && <MusicIcon className={`size-4 ${isActiveColor}`} />}
 			<span className={`ml-2 text-lg ${isActiveColor}`}>{songName}</span>
