@@ -1,11 +1,16 @@
+---
+import ThemeToggleButton from '@/components/ThemeToggleButton'
+---
+
 <nav class="sticky w-full border-b" transition:persist>
 	<div
-		class="container mx-auto mt-0 flex w-full max-w-screen-lg flex-wrap items-center px-6 py-2 lg:px-0"
+		class="container mx-auto mt-0 flex w-full max-w-screen-lg flex-wrap items-center justify-between px-6 py-2 lg:px-0"
 	>
 		<a
 			href="/"
 			title="https://music.douban.com/top250"
 			class="text-2xl font-bold hover:text-blue-500">Douban Music Top 250</a
 		>
+		<ThemeToggleButton client:visible />
 	</div>
 </nav>

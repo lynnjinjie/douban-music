@@ -23,8 +23,8 @@ export default function TrackList({ index, songName, songArtist, songImgHref, mp
 	const isActiveColor = isCurrentSongPlaying ? 'text-blue-500' : ''
 
 	const disabledClass = isHaveMp3
-		? 'cursor-pointer text-gray-500'
-		: 'cursor-not-allowed text-gray-300'
+		? 'cursor-pointer text-gray-500 dark:text-gray-300'
+		: 'cursor-not-allowed text-gray-300 dark:text-gray-500'
 
 	useEffect(() => {
 		setIsCurrentSongPlaying(isPlaying && currentSongName === songName)
