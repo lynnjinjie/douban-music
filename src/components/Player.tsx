@@ -6,7 +6,7 @@ import { PlayIcon, PauseIcon } from '@/components/Icons'
 export default function Player() {
 	const audioRef = useRef<HTMLAudioElement>(null)
 	const [progress, setProgress] = useState(0)
-	const { songName, songArtist, songImgHref, mp3Url } = useStore(playTrack)
+	const { songName, songArtist, songImgHref, mp3Url, albumId } = useStore(playTrack)
 	const isPlaying = useStore(isPlayingStore)
 
 	const isShow = !!songName && !!songArtist && !!songImgHref && !!mp3Url
@@ -51,26 +51,34 @@ export default function Player() {
 
 	return (
 		<div
-			className={`z-2 fixed bottom-0 left-0 right-0 bg-gray-100 ${isShow ? 'block' : 'hidden'}`}
+			className={`z-2 fixed bottom-0 left-0 right-0 bg-gray-100 dark:bg-zinc-800 ${isShow ? 'block' : 'hidden'}`}
 			style={{ viewTransitionName: 'player' }}
 		>
 			<div className="h-1.5 bg-gray-200">
 				<div className="h-full bg-blue-500" style={{ width: `${progress}%` }}></div>
 			</div>
 			<div className="container mx-auto flex max-w-screen-lg items-center justify-between gap-5 px-3 py-2 sm:px-6 sm:py-4">
-				<img src={songImgHref} alt={songName} width={60} height={60} className="block rounded-md" />
+				<a href={`/album/${albumId}`}>
+					<img
+						src={songImgHref}
+						alt={songName}
+						width={60}
+						height={60}
+						className="block rounded-md"
+					/>
+				</a>
 				<div className="min-w-0 flex-1">
-					<div className="text-xl">{songName}</div>
-					<div className="text-sm">{songArtist}</div>
+					<div className="text-xl dark:text-white">{songName}</div>
+					<div className="text-sm dark:text-white">{songArtist}</div>
 				</div>
 				<audio ref={audioRef} src={mp3Url}></audio>
 				<div className="flex items-center gap-6">
 					{/* <button>上一首</button> */}
 					<button onClick={handlePlay}>
 						{isPlaying ? (
-							<PauseIcon className="h-10 w-10 sm:h-14 sm:w-14" />
+							<PauseIcon className="h-10 w-10 sm:h-14 sm:w-14 dark:text-white" />
 						) : (
-							<PlayIcon className="h-10 w-10 sm:h-14 sm:w-14" />
+							<PlayIcon className="h-10 w-10 sm:h-14 sm:w-14 dark:text-white" />
 						)}
 					</button>
 					{/* <button>下一首</button> */}

@@ -4,6 +4,7 @@ import { useStore } from '@nanostores/react'
 import { useEffect, useState } from 'react'
 
 type Props = {
+	albumId: string
 	index: number
 	songName: string
 	songArtist: string
@@ -11,12 +12,19 @@ type Props = {
 	mp3Url: string
 }
 
-export default function TrackList({ index, songName, songArtist, songImgHref, mp3Url }: Props) {
-	const { songName: currentSongName, songArtist: currentSongArtist } = useStore(playTrack)
-
-	const isPlaying = useStore(isPlayingStore)
-
+export default function TrackList({
+	albumId,
+	index,
+	songName,
+	songArtist,
+	songImgHref,
+	mp3Url
+}: Props) {
+	const [isPlaying, setIsPlaying] = useState(false)
 	const [isCurrentSongPlaying, setIsCurrentSongPlaying] = useState(false)
+
+	const { songName: currentSongName, songArtist: currentSongArtist } = useStore(playTrack)
+	const isSongPlaying = useStore(isPlayingStore)
 
 	const isHaveMp3 = !!mp3Url
 
@@ -27,19 +35,20 @@ export default function TrackList({ index, songName, songArtist, songImgHref, mp
 		: 'cursor-not-allowed text-gray-300 dark:text-gray-500'
 
 	useEffect(() => {
-		setIsCurrentSongPlaying(isPlaying && currentSongName === songName)
-	}, [isPlaying, currentSongName, songName])
+		setIsPlaying(isSongPlaying && currentSongName === songName)
+		setIsCurrentSongPlaying(currentSongName === songName)
+	}, [isSongPlaying, currentSongName, songName])
 
 	const handlePlay = () => {
 		if (isHaveMp3) {
-			playTrack.set({ index, songName, songArtist, songImgHref, mp3Url })
+			playTrack.set({ albumId, index, songName, songArtist, songImgHref, mp3Url })
 		}
 	}
 
 	return (
 		<div className={`flex items-center border-b py-2 ${disabledClass}`} onClick={handlePlay}>
 			<span className={`mr-2 text-lg ${isActiveColor}`}>{index}.</span>
-			{isCurrentSongPlaying && <MusicIcon className={`size-4 ${isActiveColor}`} />}
+			{isPlaying && <MusicIcon className={`size-4 ${isActiveColor}`} />}
 			<span className={`ml-2 text-lg ${isActiveColor}`}>{songName}</span>
 		</div>
 	)
