@@ -1,5 +1,6 @@
 ---
 import { type MusicItem } from '@/api/get-douban-music'
+import { Image } from 'astro:assets'
 
 const { id, songName, songImgHref, songArtist, songItemList } = Astro.props as MusicItem
 
@@ -12,7 +13,7 @@ const mp3Count = songItemList.filter((item) => item.mp3Url).length
 <div class="flex cursor-pointer flex-col gap-2">
 	<a href={`/album/${id}`} class="hover:text-blue-500">
 		<div class="shadow-md hover:shadow-lg" transition:name={`album-${id}`}>
-			<img
+			<Image
 				src={songImgHref}
 				alt={songName}
 				width={400}
