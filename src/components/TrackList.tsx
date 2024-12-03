@@ -23,7 +23,7 @@ export default function TrackList({
 	const [isPlaying, setIsPlaying] = useState(false)
 	const [isCurrentSongPlaying, setIsCurrentSongPlaying] = useState(false)
 
-	const { songName: currentSongName, songArtist: currentSongArtist } = useStore(playTrack)
+	const { songName: currentSongName } = useStore(playTrack)
 	const isSongPlaying = useStore(isPlayingStore)
 
 	const isHaveMp3 = !!mp3Url

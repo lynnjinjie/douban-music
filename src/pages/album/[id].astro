@@ -17,46 +17,44 @@ export async function getStaticPaths() {
 const {
 	songName,
 	songImgHref,
-	songDoubanHref,
+	// songDoubanHref,
 	songArtist,
 	songYear,
 	songAlbumType,
 	songMedium,
 	songStyle,
 	songItemList
-} = Astro.props
+} = Astro.props as MusicItem
 ---
 
 <Layout title={`${songName} - ${songArtist} - Douban Music`}>
 	<section>
 		<div
-			class="container mx-auto flex max-w-screen-lg flex-col items-start gap-4 px-6 pb-12 pt-8 md:flex-row md:items-start lg:px-0"
+			class="container mx-auto flex max-w-screen-lg flex-col items-center gap-6 px-6 pb-12 pt-8 md:flex-row md:items-start lg:px-0"
 		>
-			<Image
-				src={songImgHref}
-				alt={songName}
-				width={384}
-				height={384}
-				class="size-96 rounded-md shadow-sm"
-				style={`view-transition-name: album-${id}`}
-			/>
-			<div class="flex flex-col justify-start gap-4">
+			<div class="flex w-full justify-center md:w-auto">
+				<Image
+					src={songImgHref}
+					alt={songName}
+					width={384}
+					height={384}
+					class="block rounded-md shadow-md"
+					style={`view-transition-name: album-${id}`}
+				/>
+			</div>
+			<div class="flex flex-1 flex-col justify-start gap-4">
 				<div class="text-4xl font-bold">{songName}</div>
 				<div class="text-3xl">{songArtist}</div>
-				<div class="text-lg">
-					<span class="text-gray-500">年份：</span>
+				<div class="text-lg text-gray-700">
 					{songYear}
 				</div>
-				<div class="text-lg">
-					<span class="text-gray-500">类型：</span>
+				<div class="text-lg text-gray-700">
 					{songAlbumType}
 				</div>
-				<div class="text-lg">
-					<span class="text-gray-500">介质：</span>
+				<div class="text-lg text-gray-700">
 					{songMedium}
 				</div>
-				<div class="text-lg">
-					<span class="text-gray-500">风格：</span>
+				<div class="text-lg text-gray-700">
 					{songStyle}
 				</div>
 			</div>
