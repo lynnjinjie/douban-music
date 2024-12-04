@@ -1,8 +1,8 @@
 ---
 import { getDoubanMusic, type MusicItem } from '@/api/get-douban-music'
+import Cover from '@/components/Cover'
 import TrackList from '@/components/TrackList'
 import Layout from '@/layouts/Layout.astro'
-import { Image } from 'astro:assets'
 
 const { id } = Astro.params
 
@@ -32,16 +32,13 @@ const {
 		<div
 			class="container mx-auto flex max-w-screen-lg flex-col items-center gap-6 px-6 pb-12 pt-8 md:flex-row md:items-start lg:px-0"
 		>
-			<div class="flex w-full justify-center md:w-auto">
-				<Image
-					src={songImgHref}
-					alt={songName}
-					width={384}
-					height={384}
-					class="block rounded-md shadow-md"
-					style={`view-transition-name: album-${id}`}
-				/>
-			</div>
+			<Cover
+				albumId={id}
+				songArtist={songArtist}
+				songImgHref={songImgHref}
+				songName={songName}
+				client:load
+			/>
 			<div class="flex flex-1 flex-col justify-start gap-4">
 				<div class="text-4xl font-bold">{songName}</div>
 				<div class="text-3xl">{songArtist}</div>

@@ -28,7 +28,7 @@ export default function TrackList({
 
 	const isHaveMp3 = !!mp3Url
 
-	const isActiveColor = isCurrentSongPlaying ? 'text-blue-500' : ''
+	const isActiveColor = isCurrentSongPlaying ? 'text-orange-500' : ''
 
 	const disabledClass = isHaveMp3
 		? 'cursor-pointer text-gray-500 dark:text-gray-300'

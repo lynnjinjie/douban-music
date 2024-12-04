@@ -11,14 +11,22 @@ const mp3Count = songItemList.filter((item) => item.mp3Url).length
 ---
 
 <div class="flex cursor-pointer flex-col gap-2">
-	<a href={`/album/${id}`} class="hover:text-blue-500">
-		<div class="shadow-md hover:shadow-lg" transition:name={`album-${id}`}>
+	<a href={`/album/${id}`} class="hover:text-orange-500">
+		<div class="relative shadow-md hover:shadow-lg" transition:name={`album-${id}`}>
 			<Image
 				src={songImgHref}
-				alt={songName}
+				alt={`${songArtist} - ${songName} album cover`}
 				width={400}
 				height={400}
 				class="aspect-square rounded-md"
+			/>
+			<Image
+				src="/vynil-lp.webp"
+				alt=""
+				width={400}
+				height={400}
+				transition:name={`vynil-${id}`}
+				class="absolute top-0 opacity-0"
 			/>
 		</div>
 		<div class="truncate text-pretty pt-2 text-sm">{songName}</div>
