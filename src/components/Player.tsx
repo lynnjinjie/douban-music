@@ -1,13 +1,17 @@
 import { useEffect, useRef, useState } from 'react'
 import { useStore } from '@nanostores/react'
-import { playTrack, isPlaying as isPlayingStore } from '@/store'
+import { playTrack, isPlaying as isPlayingStore, $playList } from '@/store'
 import { PlayIcon, PauseIcon } from '@/components/Icons'
+import { Slider } from '@/components/ui/slider'
+import { Button } from '@/components/ui/button'
+import { SkipBack, SkipForward } from 'lucide-react'
 
 export default function Player() {
 	const audioRef = useRef<HTMLAudioElement>(null)
 	const [progress, setProgress] = useState(0)
-	const { songName, songArtist, songImgHref, mp3Url, albumId } = useStore(playTrack)
+	const { songName, songArtist, songImgHref, mp3Url, albumId, index } = useStore(playTrack)
 	const isPlaying = useStore(isPlayingStore)
+	const playList = useStore($playList)
 
 	const isShow = !!songName && !!songArtist && !!songImgHref && !!mp3Url
 
@@ -40,22 +44,58 @@ export default function Player() {
 
 	useEffect(() => {
 		if (progress >= 99.99) {
-			isPlayingStore.set(false)
-			setProgress(0)
+			const nextIndex = index + 1
+			if (nextIndex < playList.length) {
+				playTrack.set(playList[nextIndex - 1])
+				// 播放下一首
+				isPlayingStore.set(true)
+			} else {
+				isPlayingStore.set(false)
+			}
 		}
-	}, [progress])
+	}, [progress, index, playList])
 
 	const handlePlay = () => {
 		isPlayingStore.set(!isPlaying)
 	}
 
+	const handleProgressChange = (value: number[]) => {
+		if (audioRef.current) {
+			audioRef.current.currentTime = (value[0] * audioRef.current.duration) / 100
+		}
+	}
+
+	const handlePrev = () => {
+		const prevIndex = index - 1
+		if (prevIndex > 0) {
+			playTrack.set(playList[prevIndex - 1])
+			isPlayingStore.set(true)
+		} else {
+			isPlayingStore.set(false)
+		}
+	}
+
+	const handleNext = () => {
+		const nextIndex = index + 1
+		if (nextIndex <= playList.length) {
+			playTrack.set(playList[nextIndex - 1])
+			isPlayingStore.set(true)
+		} else {
+			isPlayingStore.set(false)
+		}
+	}
+
 	return (
 		<div
-			className={`z-2 fixed bottom-0 left-0 right-0 bg-gray-100 dark:bg-zinc-800 ${isShow ? 'block' : 'hidden'}`}
+			className={`z-2 fixed bottom-0 left-0 right-0 bg-gray-50 dark:bg-zinc-700 ${isShow ? 'block' : 'hidden'}`}
 			style={{ viewTransitionName: 'player' }}
 		>
 			<div className="h-1.5 bg-gray-200">
-				<div className="h-full bg-blue-500" style={{ width: `${progress}%` }}></div>
+				<Slider
+					value={[progress]}
+					onValueChange={handleProgressChange}
+					className="w-full rounded-none"
+				/>
 			</div>
 			<div className="container mx-auto flex max-w-screen-lg items-center justify-between gap-5 px-3 py-2 sm:px-6 sm:py-4">
 				<a href={`/album/${albumId}`}>
@@ -64,6 +104,8 @@ export default function Player() {
 						alt={songName}
 						width={60}
 						height={60}
+						decoding="async"
+						loading="lazy"
 						className="block rounded-md"
 					/>
 				</a>
@@ -73,7 +115,15 @@ export default function Player() {
 				</div>
 				<audio ref={audioRef} src={mp3Url}></audio>
 				<div className="flex items-center gap-6">
-					{/* <button>上一首</button> */}
+					<Button
+						variant="outline"
+						size="icon"
+						className="text-orange-500"
+						onClick={handlePrev}
+						disabled={index === 1}
+					>
+						<SkipBack className="size-6" />
+					</Button>
 					<button onClick={handlePlay}>
 						{isPlaying ? (
 							<PauseIcon className="h-10 w-10 sm:h-14 sm:w-14 dark:text-white" />
@@ -81,7 +131,15 @@ export default function Player() {
 							<PlayIcon className="h-10 w-10 sm:h-14 sm:w-14 dark:text-white" />
 						)}
 					</button>
-					{/* <button>下一首</button> */}
+					<Button
+						variant="outline"
+						size="icon"
+						className="text-orange-500"
+						onClick={handleNext}
+						disabled={index === playList.length}
+					>
+						<SkipForward className="size-6" />
+					</Button>
 				</div>
 			</div>
 		</div>

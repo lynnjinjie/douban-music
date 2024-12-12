@@ -19,3 +19,5 @@ export const playTrack = atom<PlayTrack>({
 })
 
 export const isPlaying = atom(false)
+
+export const $playList = atom<PlayTrack[]>([])
