@@ -9,6 +9,8 @@ import { SkipBack, SkipForward } from 'lucide-react'
 export default function Player() {
 	const audioRef = useRef<HTMLAudioElement>(null)
 	const [progress, setProgress] = useState(0)
+	const [sliderValue, setSliderValue] = useState(0)
+	const [isDragging, setIsDragging] = useState(false)
 	const { songName, songArtist, songImgHref, mp3Url, albumId, index } = useStore(playTrack)
 	const isPlaying = useStore(isPlayingStore)
 	const playList = useStore($playList)
@@ -34,35 +36,43 @@ export default function Player() {
 
 	useEffect(() => {
 		if (mp3Url && audioRef.current) {
-			// audioRef.current.load()
-			audioRef.current.currentTime = 0
-			isPlayingStore.set(true)
-			audioRef.current.play()
 			setProgress(0)
+			setSliderValue(0)
+			audioRef.current.currentTime = 0
+			audioRef.current.play()
+			isPlayingStore.set(true)
 		}
 	}, [mp3Url])
 
 	useEffect(() => {
-		if (progress >= 99.99) {
+		if (Number(progress.toFixed(2)) >= 99.99) {
 			const nextIndex = index + 1
-			if (nextIndex < playList.length) {
+			if (nextIndex <= playList.length) {
 				playTrack.set(playList[nextIndex - 1])
-				// 播放下一首
-				isPlayingStore.set(true)
 			} else {
 				isPlayingStore.set(false)
 			}
 		}
-	}, [progress, index, playList])
+		if (!isDragging) {
+			setSliderValue(progress)
+		}
+	}, [progress, isDragging])
 
 	const handlePlay = () => {
 		isPlayingStore.set(!isPlaying)
 	}
 
 	const handleProgressChange = (value: number[]) => {
+		setIsDragging(true)
+		setSliderValue(value[0])
+	}
+
+	const handleProgressPointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
 		if (audioRef.current) {
-			audioRef.current.currentTime = (value[0] * audioRef.current.duration) / 100
+			audioRef.current.currentTime = (sliderValue * audioRef.current.duration) / 100
+			setProgress(sliderValue)
 		}
+		setIsDragging(false)
 	}
 
 	const handlePrev = () => {
@@ -92,8 +102,10 @@ export default function Player() {
 		>
 			<div className="h-1.5 bg-gray-200">
 				<Slider
-					value={[progress]}
+					defaultValue={[progress]}
+					value={[sliderValue]}
 					onValueChange={handleProgressChange}
+					onPointerUp={handleProgressPointerUp}
 					className="w-full cursor-pointer rounded-none"
 				/>
 			</div>
