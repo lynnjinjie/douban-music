@@ -40,7 +40,7 @@ const playList = songItemList.map((item) => ({
 <Layout title={`${songName} - ${songArtist} - Douban Music`}>
 	<section>
 		<div
-			class="container mx-auto flex max-w-screen-lg flex-col items-center gap-6 px-6 pb-12 pt-8 md:flex-row md:items-start lg:px-0"
+			class="container mx-auto flex max-w-screen-lg flex-col items-start gap-6 px-6 pb-12 pt-8 md:flex-row md:items-start lg:px-0"
 		>
 			<Cover
 				albumId={id}
@@ -52,16 +52,16 @@ const playList = songItemList.map((item) => ({
 			<div class="flex flex-1 flex-col justify-end gap-6">
 				<div class="text-4xl font-bold tracking-tight">{songName}</div>
 				<div class="text-3xl">{songArtist}</div>
-				<div class="text-lg text-gray-700">
+				<div class="text-lg">
 					{songYear}
 				</div>
-				<div class="text-lg text-gray-700">
+				<div class="text-lg">
 					{songAlbumType}
 				</div>
-				<div class="text-lg text-gray-700">
+				<div class="text-lg">
 					{songMedium}
 				</div>
-				<div class="text-lg text-gray-700">
+				<div class="text-lg">
 					{songStyle}
 				</div>
 				<div class="mt-3">

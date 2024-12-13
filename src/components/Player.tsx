@@ -94,7 +94,7 @@ export default function Player() {
 				<Slider
 					value={[progress]}
 					onValueChange={handleProgressChange}
-					className="w-full rounded-none"
+					className="w-full cursor-pointer rounded-none"
 				/>
 			</div>
 			<div className="container mx-auto flex max-w-screen-lg items-center justify-between gap-5 px-3 py-2 sm:px-6 sm:py-4">
@@ -126,9 +126,9 @@ export default function Player() {
 					</Button>
 					<button onClick={handlePlay}>
 						{isPlaying ? (
-							<PauseIcon className="h-10 w-10 sm:h-14 sm:w-14 dark:text-white" />
+							<PauseIcon className="h-10 w-10 text-orange-500 sm:h-14 sm:w-14" />
 						) : (
-							<PlayIcon className="h-10 w-10 sm:h-14 sm:w-14 dark:text-white" />
+							<PlayIcon className="h-10 w-10 text-orange-500 sm:h-14 sm:w-14" />
 						)}
 					</button>
 					<Button

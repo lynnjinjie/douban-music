@@ -25,9 +25,7 @@ export default function Cover({ albumId, songArtist, songImgHref, songName }: Pr
 			<img
 				src={songImgHref}
 				alt={`${songArtist} - ${songName} album cover`}
-				width={400}
-				height={400}
-				className="relative z-10 block size-[400px] rounded-md shadow-md"
+				className="relative z-10 block rounded-md shadow-md sm:size-[400px]"
 				style={{ viewTransitionName: `album-${albumId}` }}
 			/>
 			<img
