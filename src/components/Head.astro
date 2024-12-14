@@ -6,10 +6,15 @@ const { title } = Astro.props
 
 <meta charset="UTF-8" />
 <meta name="description" content="Astro description" />
-<meta name="viewport" content="width=device-width" />
-<link rel="icon" type="image/svg+xml" href="/music.svg" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link id="favicon" rel="icon" type="image/svg+xml" href="/music.svg" />
+<!-- <link rel="icon" type="image/svg+xml" href="/music.svg" media="(prefers-color-scheme: light)" /> -->
+<!-- <link rel="icon" type="image/svg+xml" href="/music-dark.svg" media="(prefers-color-scheme: dark)" /> -->
+<link rel="apple-touch-icon" href="/music.svg" media="(prefers-color-scheme: light)" />
+<link rel="apple-touch-icon" href="/music-dark.svg" media="(prefers-color-scheme: dark)" />
+<link rel="manifest" href="/manifest.webmanifest" />
 <meta name="generator" content={Astro.generator} />
-<meta name="description" content="Douban Music Top250 Playlist." />
+<meta name="description" content="豆瓣音乐 Top250 Playlist." />
 <title>{title}</title>
 <ViewTransitions />
 
@@ -30,7 +35,10 @@ const { title } = Astro.props
 		} else {
 			document.documentElement.classList.add('dark')
 		}
-
+		const favicon = document.getElementById('favicon')
+		if (favicon) {
+			favicon.href = theme === 'dark' ? '/music-dark.svg' : '/music.svg'
+		}
 		// window.localStorage.setItem('theme', theme)
 	})
 </script>
