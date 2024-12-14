@@ -32,5 +32,8 @@
 		"tailwindcss": "^3.4.15",
 		"tailwindcss-animate": "^1.0.7",
 		"typescript": "^5.7.2"
+	},
+	"devDependencies": {
+		"@vite-pwa/astro": "^0.4.3"
 	}
 }
