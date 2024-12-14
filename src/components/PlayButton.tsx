@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import { playTrack, type PlayTrack } from '@/store'
+import { $playTrack, type PlayTrack } from '@/store'
 import { $playList } from '@/store'
 interface Props {
 	playList: PlayTrack[]
@@ -8,7 +8,7 @@ interface Props {
 export default function PlayButton({ playList }: Props) {
 	const handlePlayAll = () => {
 		$playList.set(playList)
-		playTrack.set(playList[0])
+		$playTrack.set(playList[0])
 	}
 
 	return (

@@ -115,3 +115,25 @@ export const MoonIcon = ({ className }: { className?: string }) => {
 		</svg>
 	)
 }
+
+export const ListMusicIcon = ({ className }: { className?: string }) => {
+	return (
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			viewBox="0 0 1024 1024"
+			fill="currentColor"
+			className={` ${className}`}
+			aria-hidden="true"
+			focusable="false"
+		>
+			<path
+				d="M121.6 153.6a32 32 0 0 0-51.2 25.6v345.6a32 32 0 0 0 51.2 25.6l230.4-172.8a32 32 0 0 0 0-51.2L121.6 153.6z m390.4 27.52a32 32 0 1 0 0 64h409.6a32 32 0 0 0 0-64H512zM480 512a32 32 0 0 1 32-32h409.6a32 32 0 0 1 0 64H512a32 32 0 0 1-32-32z m-409.6 298.88a32 32 0 0 1 32-32h819.2a32 32 0 1 1 0 64H102.4a32 32 0 0 1-32-32z"
+				fill="currentColor"
+				stroke="currentColor"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+				strokeWidth="2"
+			/>
+		</svg>
+	)
+}

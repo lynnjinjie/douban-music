@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useStore } from '@nanostores/react'
-import { isPlaying as isPlayingStore, playTrack } from '@/store'
+import { $isPlaying, $playTrack } from '@/store'
 interface Props {
 	albumId: string
 	songArtist: string
@@ -9,8 +9,8 @@ interface Props {
 }
 
 export default function Cover({ albumId, songArtist, songImgHref, songName }: Props) {
-	const isPlaying = useStore(isPlayingStore)
-	const { albumId: currentAlbumId } = useStore(playTrack)
+	const isPlaying = useStore($isPlaying)
+	const { albumId: currentAlbumId } = useStore($playTrack)
 	const [isPlayingCurrentRecord, setIsPlayingCurrentRecord] = useState(false)
 
 	useEffect(() => {

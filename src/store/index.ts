@@ -9,7 +9,7 @@ export type PlayTrack = {
 	mp3Url: string
 }
 
-export const playTrack = atom<PlayTrack>({
+export const $playTrack = atom<PlayTrack>({
 	albumId: '',
 	index: 0,
 	songArtist: '',
@@ -18,6 +18,6 @@ export const playTrack = atom<PlayTrack>({
 	mp3Url: ''
 })
 
-export const isPlaying = atom(false)
+export const $isPlaying = atom(false)
 
 export const $playList = atom<PlayTrack[]>([])

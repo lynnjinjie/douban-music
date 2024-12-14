@@ -1,5 +1,5 @@
 import { MusicIcon } from '@/components/Icons'
-import { playTrack, isPlaying as isPlayingStore, $playList } from '@/store'
+import { $playTrack, $isPlaying, $playList } from '@/store'
 import { useStore } from '@nanostores/react'
 import { useEffect, useState } from 'react'
 import { type PlayTrack } from '@/store'
@@ -13,8 +13,8 @@ export default function TrackList({ playList, index }: Props) {
 	const [isPlaying, setIsPlaying] = useState(false)
 	const [isCurrentSongPlaying, setIsCurrentSongPlaying] = useState(false)
 
-	const { songName: currentSongName } = useStore(playTrack)
-	const isSongPlaying = useStore(isPlayingStore)
+	const { songName: currentSongName } = useStore($playTrack)
+	const isSongPlaying = useStore($isPlaying)
 
 	const currentSong = playList[index - 1]
 
@@ -34,7 +34,7 @@ export default function TrackList({ playList, index }: Props) {
 	const handlePlay = () => {
 		if (isHaveMp3) {
 			$playList.set(playList)
-			playTrack.set(currentSong)
+			$playTrack.set(currentSong)
 		}
 	}
 
