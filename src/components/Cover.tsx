@@ -18,7 +18,7 @@ export default function Cover({ albumId, songArtist, songImgHref, songName }: Pr
 	}, [currentAlbumId, isPlaying])
 
 	const className =
-		'absolute top-0 opacity-0 vynil-animation-in aspect-square size-[270px] sm:size-[400px]' +
+		'absolute top-0 opacity-0 aspect-square size-[270px] sm:size-[400px] vynil-animation-in' +
 		(isPlayingCurrentRecord ? '-spinning' : '')
 
 	return (
