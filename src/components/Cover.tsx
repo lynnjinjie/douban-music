@@ -18,21 +18,20 @@ export default function Cover({ albumId, songArtist, songImgHref, songName }: Pr
 	}, [currentAlbumId, isPlaying])
 
 	const className =
-		'absolute top-0 opacity-0 vynil-animation-in' + (isPlayingCurrentRecord ? '-spinning' : '')
+		'absolute top-0 opacity-0 vynil-animation-in aspect-square size-[270px] sm:size-[400px]' +
+		(isPlayingCurrentRecord ? '-spinning' : '')
 
 	return (
-		<div className="relative mr-32 shadow-xl md:w-auto">
+		<div className="relative shadow-xl sm:mr-32 md:w-auto">
 			<img
 				src={songImgHref}
 				alt={`${songArtist} - ${songName} album cover`}
-				className="relative z-10 block rounded-md shadow-md sm:size-[400px]"
+				className="relative z-10 block aspect-square size-[270px] rounded-md shadow-md sm:size-[400px]"
 				style={{ viewTransitionName: `album-${albumId}` }}
 			/>
 			<img
 				src="/vynil-lp.webp"
 				alt=""
-				width={400}
-				height={400}
 				style={{ viewTransitionName: `vynil-${albumId}` }}
 				className={className}
 			/>
