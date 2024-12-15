@@ -1,6 +1,15 @@
 import PlayList from '@/components/PlayList'
 import { Drawer, DrawerContent, DrawerDescription, DrawerTitle } from '@/components/ui/drawer'
-import { ListMusic, ChevronDown, SkipBack, SkipForward, Pause, Play } from 'lucide-react'
+import {
+	ListMusic,
+	ChevronDown,
+	SkipBack,
+	SkipForward,
+	Pause,
+	Play,
+	CirclePause,
+	CirclePlay
+} from 'lucide-react'
 import { useStore } from '@nanostores/react'
 import { $playTrack, $isPlaying, $playList } from '@/store'
 import { Button } from '@/components/ui/button'
@@ -46,12 +55,16 @@ export default function PlayerScreen({
 				</VisuallyHidden>
 				<div className="overflow-y-hidden">
 					<div className="mt-2 flex items-center justify-between px-4 py-2">
-						<ChevronDown className="size-10" onClick={() => onOpenChange(false)} />
+						<ChevronDown className="size-8" onClick={() => onOpenChange(false)} />
 						<ThemeToggle />
 					</div>
 					<div className="flex flex-col items-center gap-4 px-6 py-4">
 						<div className="flex w-full justify-center">
-							<img src={songImgHref} alt={songName} className="aspect-square w-[80%] rounded-md" />
+							<img
+								src={songImgHref}
+								alt={songName}
+								className="aspect-square w-[80%] max-w-80 rounded-md"
+							/>
 						</div>
 						<div className="flex flex-col items-center gap-2">
 							<div className="text-2xl font-bold">{songName}</div>
@@ -63,7 +76,7 @@ export default function PlayerScreen({
 								value={[sliderValue]}
 								onValueChange={handleProgressChange}
 								onPointerUp={handleProgressPointerUp}
-								className="w-full cursor-pointer rounded-none"
+								className="w-full cursor-pointer"
 							/>
 						</div>
 						<div className="flex items-center gap-8">
@@ -72,9 +85,9 @@ export default function PlayerScreen({
 							</button>
 							<button onClick={handlePlay}>
 								{isPlaying ? (
-									<Pause className="size-16 sm:size-20" />
+									<CirclePause className="size-16 md:size-20" />
 								) : (
-									<Play className="size-16 sm:size-20" />
+									<CirclePlay className="size-16 md:size-20" />
 								)}
 							</button>
 							<button onClick={playNext} disabled={index === playList.length}>

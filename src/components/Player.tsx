@@ -3,7 +3,7 @@ import { useStore } from '@nanostores/react'
 import { $playTrack, $isPlaying, $playList } from '@/store'
 import { PlayIcon, PauseIcon, ListMusicIcon } from '@/components/Icons'
 import { Slider } from '@/components/ui/slider'
-import { SkipBack, SkipForward } from 'lucide-react'
+import { CirclePause, CirclePlay, SkipBack, SkipForward } from 'lucide-react'
 import PlayerScreen from '@/components/PlayerScreen'
 import useMediaQuery from '@/hooks/useMediaQuery'
 import PlayList from '@/components/PlayList'
@@ -164,9 +164,9 @@ export default function Player() {
 					</button>
 					<button onClick={handlePlay}>
 						{isPlaying ? (
-							<PauseIcon className="size-12 sm:size-14" />
+							<CirclePause className="size-12 sm:size-14" />
 						) : (
-							<PlayIcon className="size-12 sm:size-14" />
+							<CirclePlay className="size-12 sm:size-14" />
 						)}
 					</button>
 					<button onClick={handleNext} disabled={index === playList.length}>

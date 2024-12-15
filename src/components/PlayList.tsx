@@ -1,6 +1,5 @@
 import {
 	Drawer,
-	DrawerClose,
 	DrawerContent,
 	DrawerDescription,
 	DrawerTitle,
@@ -68,7 +67,7 @@ function PlayListDesktop({ open, setOpen, children, playList }: PlayListItemProp
 		<Drawer open={open} onOpenChange={setOpen} direction="bottom" modal={false}>
 			<DrawerTrigger asChild>{children}</DrawerTrigger>
 			<DrawerPortal>
-				<DrawerContent className="bottom-[100px] mx-auto h-[300px] max-w-screen-lg bg-zinc-400/60 backdrop-blur-md dark:bg-zinc-900/60">
+				<DrawerContent className="bottom-[100px] mx-auto h-[300px] max-w-screen-lg bg-slate-100/60 backdrop-blur-md dark:bg-zinc-900/60">
 					<VisuallyHidden>
 						<DrawerTitle className="text-2xl font-bold">music playlist</DrawerTitle>
 						<DrawerDescription>music playlist</DrawerDescription>
@@ -86,7 +85,6 @@ function PlayListDesktop({ open, setOpen, children, playList }: PlayListItemProp
 							))}
 						</div>
 					</div>
-					<DrawerClose />
 				</DrawerContent>
 			</DrawerPortal>
 		</Drawer>
