@@ -64,6 +64,7 @@ export default function PlayerScreen({
 								src={songImgHref}
 								alt={songName}
 								className="aspect-square w-[80%] max-w-80 rounded-md"
+								style={{ viewTransitionName: `song-cover` }}
 							/>
 						</div>
 						<div className="flex flex-col items-center gap-2">

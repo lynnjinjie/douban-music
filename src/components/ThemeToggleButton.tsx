@@ -23,7 +23,6 @@ export default function ThemeToggle() {
 		const t = theme === 'light' ? 'dark' : 'light'
 		localStorage.setItem('theme', t)
 		setTheme(t)
-		console.log('t', t)
 		const favicon = document.getElementById('favicon') as HTMLAnchorElement
 		if (favicon) {
 			favicon.href = t === 'dark' ? '/music-dark.svg' : '/music.svg'

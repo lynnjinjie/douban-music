@@ -145,6 +145,7 @@ export default function Player() {
 							decoding="async"
 							loading="lazy"
 							className="block rounded-md"
+							style={{ viewTransitionName: `song-cover` }}
 						/>
 					</a>
 				)}
