@@ -27,13 +27,15 @@ const {
 	songItemList
 } = Astro.props as MusicItem
 
-const playList = songItemList.map((item) => ({
+const songList = songItemList.map((item, index) => ({
+	id: item.id,
 	albumId: id,
-	index: item.id,
+	index,
 	songArtist,
 	songName: item.name,
 	songImgHref,
-	mp3Url: item.mp3Url
+	mp3Url: item.mp3Url,
+	duration: item.duration
 }))
 ---
 
@@ -65,7 +67,7 @@ const playList = songItemList.map((item) => ({
 					{songStyle}
 				</div>
 				<div class="mt-3">
-					<PlayButton playList={playList} client:load />
+					<PlayButton songList={songList} client:load />
 				</div>
 			</div>
 		</div>
@@ -73,8 +75,8 @@ const playList = songItemList.map((item) => ({
 			<h2 class="py-2 text-2xl font-bold">歌曲列表</h2>
 			<div class="flex flex-col gap-2">
 				{
-					songItemList.map((item) => (
-						<TrackList playList={playList} index={item.id} client:visible />
+					songItemList.map((item, index) => (
+						<TrackList songList={songList} id={item.id} index={index} client:visible />
 					))
 				}
 			</div>
