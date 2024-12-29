@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 import { useStore } from '@nanostores/react'
 import { $playTrack, $isPlaying, $playList } from '@/store'
-import { PlayIcon, PauseIcon, ListMusicIcon } from '@/components/Icons'
+import { ListMusicIcon } from '@/components/Icons'
 import { Slider } from '@/components/ui/slider'
 import { CirclePause, CirclePlay, SkipBack, SkipForward } from 'lucide-react'
 import PlayerScreen from '@/components/PlayerScreen'
 import useMediaQuery from '@/hooks/useMediaQuery'
 import PlayList from '@/components/PlayList'
+import { formatSecondsToMinutes } from '@/lib/utils'
 
 export default function Player() {
 	const audioRef = useRef<HTMLAudioElement>(null)
@@ -14,8 +15,10 @@ export default function Player() {
 	const [sliderValue, setSliderValue] = useState(0)
 	const [isDragging, setIsDragging] = useState(false)
 	const [isOpenPlayerScreen, setIsOpenPlayerScreen] = useState(false)
+	const [currentTime, setCurrentTime] = useState('00:00')
 
-	const { songName, songArtist, songImgHref, mp3Url, albumId, index } = useStore($playTrack)
+	const { songName, songArtist, songImgHref, mp3Url, albumId, index, duration } =
+		useStore($playTrack)
 	const isPlaying = useStore($isPlaying)
 	const playList = useStore($playList)
 
@@ -24,6 +27,7 @@ export default function Player() {
 	const isMobile = useMediaQuery('(max-width: 768px)')
 
 	useEffect(() => {
+		console.log('isPlaying', isPlaying)
 		if (isPlaying) {
 			audioRef.current?.play()
 		} else {
@@ -36,9 +40,22 @@ export default function Player() {
 			if (audioRef.current?.duration) {
 				const progress = (audioRef.current?.currentTime * 100) / (audioRef.current?.duration || 0)
 				setProgress(progress)
+				setCurrentTime(formatSecondsToMinutes(audioRef.current?.currentTime))
 			}
 		})
 	}, [])
+
+	// 设置音频封面，标题，艺术家等元数据
+	useEffect(() => {
+		if ('mediaSession' in navigator) {
+			navigator.mediaSession.metadata = new MediaMetadata({
+				title: songName,
+				artist: songArtist,
+				album: albumId,
+				artwork: [{ src: songImgHref }]
+			})
+		}
+	}, [songName, songArtist, albumId, songImgHref])
 
 	useEffect(() => {
 		if (mp3Url && audioRef.current) {
@@ -152,6 +169,9 @@ export default function Player() {
 				<div className="min-w-0 flex-1">
 					<div className="text-xl dark:text-white">{songName}</div>
 					<div className="text-sm dark:text-white">{songArtist}</div>
+				</div>
+				<div className="text-sm dark:text-white">
+					{currentTime} / {duration}
 				</div>
 				<audio
 					ref={audioRef}
