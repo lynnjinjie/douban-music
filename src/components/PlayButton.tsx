@@ -30,7 +30,7 @@ export default function PlayButton({ songList }: Props) {
 		<div className="flex items-center gap-2">
 			<Button
 				variant="outline"
-				className="px-8 py-6 text-lg text-orange-500"
+				className="px-5 py-2 text-sm text-orange-500 md:px-8 md:py-6 md:text-lg"
 				onClick={handlePlayAll}
 			>
 				<Play className="mr-2 size-10" />
@@ -38,7 +38,7 @@ export default function PlayButton({ songList }: Props) {
 			</Button>
 			<Button
 				variant="secondary"
-				className="px-8 py-6 text-lg text-orange-500"
+				className="px-5 py-2 text-sm text-orange-500 md:px-8 md:py-6 md:text-lg"
 				onClick={handleAddToPlayList}
 				disabled={disabledAddToPlayList}
 			>
