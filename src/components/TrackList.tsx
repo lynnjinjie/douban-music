@@ -50,9 +50,11 @@ export default function TrackList({ songList, id, index }: Props) {
 			onClick={handlePlay}
 		>
 			<div className="flex items-center">
-				<span className={`mr-2 text-lg ${isActiveColor}`}>{index + 1}.</span>
+				<span className={`mr-2 ${isActiveColor}`}>{index + 1}.</span>
 				{isPlaying && <MusicIcon className={`size-4 ${isActiveColor}`} />}
-				<span className={`ml-2 text-lg ${isActiveColor}`}>{currentSong?.songName}</span>
+				<span className={`ml-2 line-clamp-1 text-base md:text-lg ${isActiveColor}`}>
+					{currentSong?.songName}
+				</span>
 			</div>
 			<span className={`ml-2 text-lg ${isActiveColor}`}>{currentSong?.duration}</span>
 		</div>
