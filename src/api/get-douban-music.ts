@@ -1,7 +1,8 @@
 interface SongItem {
-	id: number
+	id: string
 	name: string
 	mp3Url: string
+	duration: string
 }
 
 export interface MusicItem {
