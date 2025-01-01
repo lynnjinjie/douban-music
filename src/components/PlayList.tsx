@@ -245,7 +245,7 @@ function PlayListDesktop({
 				{children}
 			</DrawerTrigger>
 			<DrawerPortal>
-				<DrawerContent className="bottom-[100px] mx-auto h-[400px] max-w-screen-lg bg-slate-100/60 backdrop-blur-md dark:bg-zinc-900/60">
+				<DrawerContent className="bottom-[96px] mx-auto h-[400px] max-w-screen-lg">
 					<VisuallyHidden>
 						<DrawerTitle className="text-2xl font-bold">music playlist</DrawerTitle>
 						<DrawerDescription>music playlist</DrawerDescription>

@@ -145,7 +145,7 @@ export default function Player() {
 	return (
 		<div
 			className={cn(
-				'fixed bottom-0 left-0 right-0 h-24 bg-gray-50 dark:bg-zinc-700',
+				'fixed bottom-0 left-0 right-0 h-20 bg-gray-50 dark:bg-zinc-700',
 				isMobile ? 'z-0' : 'z-[52]',
 				isShow ? 'block' : 'hidden'
 			)}
@@ -167,7 +167,7 @@ export default function Player() {
 					<Progress value={progress} className="size-full cursor-pointer rounded-none" />
 				</div>
 			)}
-			<div className="container mx-auto flex max-w-screen-lg items-center justify-between gap-5 px-3 py-2 sm:px-6 sm:py-4">
+			<div className="container mx-auto flex h-full max-w-screen-lg items-center justify-between gap-5 px-3 py-2 sm:px-6 sm:py-4">
 				{isMobile ? (
 					<img
 						src={songImgHref}
@@ -210,7 +210,7 @@ export default function Player() {
 				></audio>
 				<div className="flex items-center gap-6">
 					{!isMobile && (
-						<button onClick={handlePrev} disabled={index === 0}>
+						<button onClick={handlePrev}>
 							<SkipBack className="size-6" />
 						</button>
 					)}
@@ -222,7 +222,7 @@ export default function Player() {
 						)}
 					</button>
 					{!isMobile && (
-						<button onClick={handleNext} disabled={index === playList.length - 1}>
+						<button onClick={handleNext}>
 							<SkipForward className="size-6" />
 						</button>
 					)}
