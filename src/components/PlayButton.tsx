@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { $playTrack, type PlayTrack } from '@/store'
-import { $playList } from '@/store'
+import { $playList, $isPlaying } from '@/store'
 import { useStore } from '@nanostores/react'
 import { ListPlus, Play } from 'lucide-react'
 interface Props {
@@ -9,10 +9,11 @@ interface Props {
 
 export default function PlayButton({ songList }: Props) {
 	const playList = useStore($playList)
-
+	const playTrack = useStore($playTrack)
 	const handlePlayAll = () => {
 		$playList.set(songList)
 		$playTrack.set(songList[0])
+		$isPlaying.set(true)
 	}
 
 	const disabledAddToPlayList = songList.every((song) =>
@@ -22,8 +23,11 @@ export default function PlayButton({ songList }: Props) {
 	const handleAddToPlayList = () => {
 		// 如果 playList 中已经存在 songList 中的歌曲，则不添加
 		const newPlayList = songList.filter((song) => !playList.some((item) => item.id === song.id))
-		$playList.set([...newPlayList, ...playList])
-		$playTrack.set(songList[0])
+		$playList.set([...playList, ...newPlayList])
+		// 如果当前 playTrack 为初始状态，则播放第一首歌曲
+		if (!playTrack.id) {
+			$playTrack.set(newPlayList[0])
+		}
 	}
 
 	return (
