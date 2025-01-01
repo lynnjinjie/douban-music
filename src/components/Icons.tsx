@@ -120,7 +120,7 @@ export const ListMusicIcon = ({ className }: { className?: string }) => {
 	return (
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
-			viewBox="0 0 24 24"
+			viewBox="0 0 1024 1024"
 			fill="currentColor"
 			className={` ${className}`}
 			aria-hidden="true"

@@ -1,15 +1,22 @@
 import { useEffect, useRef, useState } from 'react'
 import { useStore } from '@nanostores/react'
-import { $playTrack, $isPlaying, $playList } from '@/store'
-import { ListMusicIcon } from '@/components/Icons'
+import {
+	$playTrack,
+	$isPlaying,
+	$playList,
+	$isInit,
+	handleNextTrack,
+	handlePrevTrack
+} from '@/store'
+import { ListMusicIcon, MusicIcon } from '@/components/Icons'
 import { Slider } from '@/components/ui/slider'
 import { CirclePause, CirclePlay, SkipBack, SkipForward } from 'lucide-react'
 import PlayerScreen from '@/components/PlayerScreen'
 import useMediaQuery from '@/hooks/useMediaQuery'
 import PlayList from '@/components/PlayList'
-import { formatSecondsToMinutes } from '@/lib/utils'
+import { formatDurationToSeconds, formatSecondsToMinutes } from '@/lib/utils'
 import { Progress } from '@/components/ui/progress'
-
+import { cn } from '@/lib/utils'
 export default function Player() {
 	const audioRef = useRef<HTMLAudioElement>(null)
 	const [progress, setProgress] = useState(0)
@@ -29,12 +36,15 @@ export default function Player() {
 	} = useStore($playTrack)
 	const isPlaying = useStore($isPlaying)
 	const playList = useStore($playList)
-
+	const isInit = useStore($isInit)
 	const index = playList.findIndex((item) => item.id === songId)
 
 	const isShow = !!songName && !!songArtist && !!songImgHref && !!mp3Url
-
 	const isMobile = useMediaQuery('(max-width: 768px)')
+
+	const draggingTime = formatSecondsToMinutes(
+		(sliderValue * (audioRef.current?.duration || 0)) / 100
+	)
 
 	useEffect(() => {
 		if (isPlaying) {
@@ -67,23 +77,24 @@ export default function Player() {
 	}, [songName, songArtist, albumId, songImgHref])
 
 	useEffect(() => {
-		if (mp3Url && audioRef.current) {
+		if (mp3Url && audioRef.current && !isInit) {
+			resetPlayer()
+		}
+	}, [mp3Url, isInit])
+	const resetPlayer = () => {
+		if (audioRef.current) {
 			setProgress(0)
 			setSliderValue(0)
 			audioRef.current.currentTime = 0
 			audioRef.current.play()
 			$isPlaying.set(true)
 		}
-	}, [mp3Url])
+	}
 
 	useEffect(() => {
 		if (Number(progress.toFixed(2)) >= 99.99) {
-			const nextIndex = index + 1
-			if (nextIndex <= playList.length) {
-				$playTrack.set(playList[nextIndex - 1])
-			} else {
-				$isPlaying.set(false)
-			}
+			handleNextTrack()
+			$isPlaying.set(true)
 		}
 		if (!isDragging) {
 			setSliderValue(progress)
@@ -91,6 +102,9 @@ export default function Player() {
 	}, [progress, isDragging])
 
 	const handlePlay = () => {
+		if ($isInit) {
+			$isInit.set(false)
+		}
 		$isPlaying.set(!isPlaying)
 	}
 
@@ -108,6 +122,9 @@ export default function Player() {
 	}
 
 	const handleAudioPlay = () => {
+		if ($isInit) {
+			$isInit.set(false)
+		}
 		$isPlaying.set(true)
 	}
 
@@ -116,38 +133,33 @@ export default function Player() {
 	}
 
 	const handlePrev = () => {
-		const prevIndex = index - 1
-		if (prevIndex >= 0) {
-			$playTrack.set(playList[prevIndex])
-			$isPlaying.set(true)
-		} else {
-			$isPlaying.set(false)
-		}
+		handlePrevTrack()
+		$isPlaying.set(true)
 	}
 
 	const handleNext = () => {
-		const nextIndex = index + 1
-		if (nextIndex <= playList.length) {
-			$playTrack.set(playList[nextIndex])
-			$isPlaying.set(true)
-		} else {
-			$isPlaying.set(false)
-		}
+		handleNextTrack()
+		$isPlaying.set(true)
 	}
 
 	return (
 		<div
-			className={`h-25 fixed bottom-0 left-0 right-0 bg-gray-50 dark:bg-zinc-700 ${isMobile ? 'z-0' : 'z-[52]'} ${isShow ? 'block' : 'hidden'}`}
+			className={cn(
+				'fixed bottom-0 left-0 right-0 h-24 bg-gray-50 dark:bg-zinc-700',
+				isMobile ? 'z-0' : 'z-[52]',
+				isShow ? 'block' : 'hidden'
+			)}
 			style={{ viewTransitionName: 'player' }}
 		>
 			{!isMobile ? (
-				<div className="h-1.5 bg-gray-200">
+				<div className="h-1 bg-gray-200">
 					<Slider
 						defaultValue={[progress]}
 						value={[sliderValue]}
+						step={0.01}
 						onValueChange={handleProgressChange}
 						onPointerUp={handleProgressPointerUp}
-						className="w-full cursor-pointer rounded-none"
+						className="h-full cursor-pointer rounded-none"
 					/>
 				</div>
 			) : (
@@ -187,7 +199,7 @@ export default function Player() {
 				</div>
 				{!isMobile && (
 					<div className="text-sm dark:text-white">
-						{currentTime} / {duration}
+						{isDragging ? draggingTime : currentTime} / {duration}
 					</div>
 				)}
 				<audio
@@ -214,13 +226,11 @@ export default function Player() {
 							<SkipForward className="size-6" />
 						</button>
 					)}
-					{!isMobile && (
-						<PlayList>
-							<button className="text-gray-500 dark:text-gray-300">
-								<ListMusicIcon className="size-6" />
-							</button>
-						</PlayList>
-					)}
+					<PlayList>
+						<button>
+							<ListMusicIcon className="size-6" />
+						</button>
+					</PlayList>
 				</div>
 			</div>
 			<PlayerScreen
@@ -228,6 +238,8 @@ export default function Player() {
 				progress={progress}
 				sliderValue={sliderValue}
 				currentTime={currentTime}
+				draggingTime={draggingTime}
+				isDragging={isDragging}
 				index={index}
 				onOpenChange={setIsOpenPlayerScreen}
 				playPrev={handlePrev}

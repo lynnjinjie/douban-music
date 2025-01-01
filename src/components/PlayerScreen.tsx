@@ -13,6 +13,8 @@ interface Props {
 	progress: number
 	sliderValue: number
 	currentTime: string
+	draggingTime: string
+	isDragging: boolean
 	index: number
 	onOpenChange: (open: boolean) => void
 	playPrev: () => void
@@ -31,6 +33,8 @@ export default function PlayerScreen({
 	handleProgressChange,
 	handleProgressPointerUp,
 	currentTime,
+	draggingTime,
+	isDragging,
 	index
 }: Props) {
 	const { songName, songArtist, songImgHref, id: songId, duration } = useStore($playTrack)
@@ -77,7 +81,7 @@ export default function PlayerScreen({
 									className="w-full cursor-pointer"
 								/>
 								<div className="mt-2 flex w-full items-center justify-between text-sm text-gray-500">
-									<span className="mr-2">{currentTime}</span>
+									<span className="mr-2">{isDragging ? draggingTime : currentTime}</span>
 									<span className="ml-2">{duration}</span>
 								</div>
 							</div>
