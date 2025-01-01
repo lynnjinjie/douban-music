@@ -58,3 +58,8 @@
 	animation: none;
 	mix-blend-mode: normal;
 }
+
+/* 滚动条样式 */
+.hide-scrollbar::-webkit-scrollbar {
+	display: none;
+}
