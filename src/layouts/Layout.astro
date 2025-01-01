@@ -24,11 +24,42 @@ const { title } = Astro.props
 				<Footer />
 			</div>
 			<div id="audio-player">
-				<Player client:load transition:persist="player" />
+				<Player client:only="react" transition:persist="player" />
 			</div>
 		</div>
 	</body>
 </html>
+<script>
+	import { $isPlaying, $playList, $playTrack } from '@/store'
+	// 设置按空格键播放
+	document.addEventListener('keydown', (event) => {
+		if (event.key === ' ') {
+			event.preventDefault()
+			$isPlaying.set(!$isPlaying.value)
+		}
+	})
+	// 左右键切换歌曲
+	document.addEventListener('keydown', (event) => {
+		if (event.key === 'ArrowRight') {
+			// 如果当前播放的是最后一首歌曲，则播放第一首歌曲
+			const index = $playList.value.findIndex((item) => item.id === $playTrack.value.id)
+			if (index === $playList.value.length - 1) {
+				$playTrack.set($playList.value[0])
+			} else {
+				$playTrack.set($playList.value[index + 1])
+			}
+		}
+		if (event.key === 'ArrowLeft') {
+			// 如果当前播放的是第一首歌曲，则播放最后一首歌曲
+			const index = $playList.value.findIndex((item) => item.id === $playTrack.value.id)
+			if (index === 0) {
+				$playTrack.set($playList.value[$playList.value.length - 1])
+			} else {
+				$playTrack.set($playList.value[index - 1])
+			}
+		}
+	})
+</script>
 <style is:global>
 	html {
 		font-family: system-ui, sans-serif;
