@@ -16,9 +16,11 @@ export default function PlayButton({ songList }: Props) {
 		$isPlaying.set(true)
 	}
 
-	const disabledAddToPlayList = songList.every((song) =>
-		playList.some((item) => item.id === song.id)
-	)
+	const disabledPlayAll = songList.every((song) => !song.mp3Url)
+
+	const disabledAddToPlayList =
+		songList.every((song) => playList.some((item) => item.id === song.id)) ||
+		songList.every((song) => !song.mp3Url)
 
 	const handleAddToPlayList = () => {
 		// 如果 playList 中已经存在 songList 中的歌曲，则不添加
@@ -36,6 +38,7 @@ export default function PlayButton({ songList }: Props) {
 				variant="outline"
 				className="px-5 py-2 text-sm text-orange-500 md:px-8 md:py-6 md:text-lg"
 				onClick={handlePlayAll}
+				disabled={disabledPlayAll}
 			>
 				<Play className="mr-2 size-10" />
 				播放全部
