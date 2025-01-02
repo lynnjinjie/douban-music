@@ -41,6 +41,8 @@ export default function PlayList({ children }: { children: React.ReactNode }) {
 	}, [open, playTrackId])
 
 	const removeTrack = (index: number) => {
+		// 删除的歌曲是否为当前歌曲
+		const isCurrentSong = playTrackId === playList[index].id
 		// 当前播放的歌曲被删除时，播放下一首歌曲
 		const newPlayList = playList.filter((_, i) => i !== index)
 		$playList.set(newPlayList)
@@ -50,8 +52,8 @@ export default function PlayList({ children }: { children: React.ReactNode }) {
 			setOpen(false)
 			return
 		}
-		// 如果当前删除的是最后一个歌曲，则播放上一首歌曲
-		if (index === newPlayList.length) {
+		// 如果当前删除的是正在播放的最后一个歌曲，则播放上一首歌曲
+		if (index === newPlayList.length && isCurrentSong) {
 			$playTrack.set(newPlayList[index - 1])
 			return
 		}
@@ -245,7 +247,7 @@ function PlayListDesktop({
 				{children}
 			</DrawerTrigger>
 			<DrawerPortal>
-				<DrawerContent className="bottom-[96px] mx-auto h-[400px] max-w-screen-lg">
+				<DrawerContent className="bottom-[80px] mx-auto h-[400px] max-w-screen-lg">
 					<VisuallyHidden>
 						<DrawerTitle className="text-2xl font-bold">music playlist</DrawerTitle>
 						<DrawerDescription>music playlist</DrawerDescription>
