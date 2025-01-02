@@ -73,13 +73,7 @@ const songList = songItemList.map((item, index) => ({
 		</div>
 		<div class="container mx-auto mb-10 max-w-screen-lg lg:px-0">
 			<!-- <h2 class="py-2 text-2xl font-bold">歌曲列表</h2> -->
-			<div class="flex flex-col">
-				{
-					songItemList.map((item, index) => (
-						<TrackList songList={songList} id={item.id} index={index} client:only="react" />
-					))
-				}
-			</div>
+			<TrackList songList={songList} client:only="react" />
 		</div>
 	</section>
 </Layout>
