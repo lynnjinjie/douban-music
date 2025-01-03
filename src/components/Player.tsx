@@ -176,7 +176,7 @@ export default function Player() {
 						height={50}
 						decoding="async"
 						loading="lazy"
-						className="block rounded-md"
+						className="block aspect-square rounded-md"
 						onClick={() => setIsOpenPlayerScreen(true)}
 					/>
 				) : (
@@ -188,7 +188,7 @@ export default function Player() {
 							height={60}
 							decoding="async"
 							loading="lazy"
-							className="block rounded-md"
+							className="block aspect-square rounded-md"
 							style={{ viewTransitionName: `song-cover` }}
 						/>
 					</a>
