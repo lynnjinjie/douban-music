@@ -1,0 +1,41 @@
+---
+import type { MusicItem } from '@/api/get-douban-music'
+import { Image } from 'astro:assets'
+const { id, songName, songImgHref, songArtist, songItemList } = Astro.props as MusicItem
+---
+
+<div class="flex w-full cursor-pointer flex-col gap-2 py-4">
+	<a href={`/album/${id}`} class="hover:text-orange-500">
+		<div class="flex items-center justify-between">
+			<div class="flex flex-1 items-center gap-2">
+				<div
+					class="relative size-16 min-w-16 shadow-md hover:shadow-lg md:size-20"
+					transition:name={`album-${id}`}
+				>
+					<Image
+						src={songImgHref}
+						alt={`${songArtist} - ${songName} album cover`}
+						width={400}
+						height={400}
+						class="aspect-square size-full rounded-md"
+					/>
+					<Image
+						src="/vynil-lp.webp"
+						alt=""
+						width={400}
+						height={400}
+						transition:name={`vynil-${id}`}
+						class="absolute top-0 opacity-0"
+					/>
+				</div>
+				<div class="flex flex-col">
+					<div class="line-clamp-1 text-sm font-bold md:text-base">{songName}</div>
+					<div class="mt-2 line-clamp-1 text-xs text-gray-500 md:text-sm">{songArtist}</div>
+				</div>
+			</div>
+			<div class="w-12 text-xs text-gray-500 md:text-sm">
+				{songItemList.filter((item) => item.mp3Url).length} / {songItemList.length}
+			</div>
+		</div>
+	</a>
+</div>

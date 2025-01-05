@@ -1,0 +1,42 @@
+---
+import type { MusicItem } from '@/api/get-douban-music'
+import Card from '@/components/MusicList/Card.astro'
+import List from '@/components/MusicList/List.astro'
+
+const { musicList } = Astro.props
+---
+
+<section class="grid-layout hidden">
+	<div class="grid w-full grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+		{musicList.map((musicItem: MusicItem) => <Card {...musicItem} />)}
+	</div>
+</section>
+<section class="list-layout hidden w-full">
+	<div class="flex w-full flex-col gap-2">
+		{musicList.map((musicItem: MusicItem) => <List {...musicItem} />)}
+	</div>
+</section>
+
+<script>
+	import { $MusicLayout } from '@/store'
+	import type { MusicLayout } from '@/store'
+	function updateLayout(layout: MusicLayout) {
+		const gridLayout = document.querySelector('.grid-layout')
+		const listLayout = document.querySelector('.list-layout')
+		if (layout === 'grid') {
+			gridLayout?.classList.remove('hidden')
+			listLayout?.classList.add('hidden')
+		} else {
+			gridLayout?.classList.add('hidden')
+			listLayout?.classList.remove('hidden')
+		}
+	}
+
+	document.addEventListener('astro:page-load', () => {
+		updateLayout($MusicLayout.get())
+	})
+
+	$MusicLayout.subscribe((value) => {
+		updateLayout(value)
+	})
+</script>
